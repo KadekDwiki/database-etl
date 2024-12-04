@@ -27,7 +27,8 @@ def transform_data(df):
    
    df['nama'] = df['nama'].str.upper()
    df['alamat'] = df['alamat'].replace(r'^\s*$', 'Tidak Diketahui', regex=True)
-   
+   df['jenis_kelamin'] = df['jenis_kelamin'].replace({'P': 'Perempuan',
+                                                      'L': 'Laki-laki'})
    
    return df
 
@@ -70,7 +71,8 @@ def run_etl():
    # 3. Transformasi data to staging area
    transformed_df = transform_data(df)
    print("Data berhasil ditransformasikan.")
-   return print(df)
+   # return print(df)
+
    # 4. Buat koneksi ke database tujuan
    staging_conn = create_connection('localhost', 'root', '', 'db_perpustakaan_staging')
    
