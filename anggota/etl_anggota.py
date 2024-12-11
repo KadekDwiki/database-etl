@@ -32,11 +32,10 @@ def transform_data(df):
    
    return df
 
-# 4. Fungsi untuk memuat data (Load)
+# 4. Fungsi untuk memuat data ke staging area (Load)
 def load_data_to_staging(conn, df):
    cursor = conn.cursor()
 
-   # Pastikan tabel tujuan sudah ada di database (atau buat tabel baru)
    create_table_query = """
    CREATE TABLE IF NOT EXISTS anggota_transformed (
       id INT PRIMARY KEY,
@@ -48,7 +47,7 @@ def load_data_to_staging(conn, df):
    """
    cursor.execute(create_table_query)
    
-   # Memasukkan data yang sudah ditransformasikan ke dalam tabel tujuan
+   # Memasukkan data yang sudah ditransformasikan ke dalam tabel tujuan di staging area
    for _, row in df.iterrows():
       insert_query = """
       INSERT INTO anggota_transformed (id, nama, jenis_kelamin, alamat, telp)
