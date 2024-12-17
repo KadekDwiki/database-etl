@@ -92,29 +92,6 @@ INSERT INTO petugas (id, username, password, nama, telp, alamat) VALUES
 (18, 'siska.jkt', NULL, 'Siska Anggraeni', '', 'Jl. Flamboyan No. 10'),
 (19, 'indra45', 'indra2022', NULL, '081202020202', 'Jl. Mawar No. 12'),
 (20, 'lina_p', 'password', 'Lina Pratiwi', '081212121212', 'Jl. Seroja'),
-(21, 'agus_k', 'agus5678', 'Agus Kurniawan', NULL, ''),
-(22, 'novita', 'novi2024', 'Novita Sari', '', 'Jl. Kenanga'),
-(23, 'fadhil_r', 'fadhil99', 'Fadhil Rahman', '081232323232', 'Jl. Kemuning No. 2'),
-(24, 'yulia.widya', NULL, 'Yulia Widyastuti', '081242424242', 'Jl. Cendana No. 6'),
-(25, 'aditma', 'adit2023', '', '081252525252', NULL),
-(26, 'eka_d', 'ed12345', 'Eka Dwi', '081262626262', 'Jl. Wijaya Kusuma'),
-(27, 'budi_d', 'bd67890', 'Budi Darmawan', '081272727272', 'Jl. Angsana'),
-(28, 'melati_m', '', 'Melati Murni', '081282828282', ''),
-(29, 'kris.s', 'krist123', 'Krisna Setiawan', '081292929292', 'Jl. Bakung'),
-(30, 'citra.p', 'citra2024', 'Citra Pramesti', '081303030303', 'Jl. Kantil No. 4'),
-(31, '', '', 'Taufik Hidayat', '081313131313', 'Jl. Cemara No. 9'),
-(32, 'vivi.s', 'viv2023', '', '081323232323', 'Jl. Tanjung No. 3'),
-(33, 'deni99', NULL, 'Deni Pratama', '', ''),
-(34, 'irma_p', 'irma678', 'Irma Permata', '081343434343', NULL),
-(35, 'andi_k', '', '', '081353535353', 'Jl. Dahlia No. 12'),
-(36, 'putu_ari', 'putu2023', 'Putu Ari', '081363636363', 'Jl. Melur No. 1'),
-(37, 'sari_h', 'sari1234', 'Sari Hartini', '081373737373', ''),
-(38, 'anita', NULL, 'Anita Sari', NULL, 'Jl. Jambu No. 7'),
-(39, 'bagus.s', 'bagus123', '', '', 'Jl. Manggis No. 11'),
-(40, '', 'rahmat2024', 'Rahmat Hidayat', '081393939393', NULL),
-(41, 'fitri_s', '', 'Fitri Sari', NULL, 'Jl. Anggrek'),
-(42, 'ramdhan', 'ramdhan23', NULL, '081404040404', 'Jl. Kamboja No. 2'),
-(43, '', '', '', '081414141414', 'Jl. Flamboyan No. 4');
 
 INSERT INTO pengarang (id, nama, alamat, telp) VALUES
 (1, 'Agus Salim', 'Jl. Melati No. 5', '081123456789'),
@@ -288,7 +265,8 @@ INSERT INTO kategori (id, nama_kategori) VALUES
 (47, 'Game'),
 (48, 'Teknik Mesin'),
 (49, 'Kimia'),
-(50, 'Fisika');
+(50, 'Fisika'),
+(51, 'Fisika');
 
 INSERT INTO buku (id, judul, tahun_terbit, jumlah, isbn, pengarang_id, penerbit_id, rak_kode_rak, kategori_id) VALUES
 (1, 'Pemrograman Web Dasar', 2023, 10, '978-1234567890', 1, 1, 'R001', 1),
@@ -329,26 +307,26 @@ INSERT INTO buku (id, judul, tahun_terbit, jumlah, isbn, pengarang_id, penerbit_
 (36, 'Sejarah Peradaban Dunia', 2022, 8, '978-8901234571', 26, 27, 'R018', 7),
 (37, 'Ekonomi Mikro', 2021, 7, '978-9012345682', 27, 28, 'R019', 16),
 (38, 'Ilmu Sosial Dasar', 2020, 11, '978-0123456793', 28, 29, 'R019', 45),
-(39, 'Kesehatan Mental', 2023, 6, '978-1234567893', 29, 30, 'R020', 9),
-(40, 'Dasar-dasar Manajemen', 2021, 13, '978-2345678904', 30, 31, 'R020', 37),
-(41, 'Panduan Bertani Organik', 2022, 9, '978-3456789015', 31, 32, 'R001', 39),
+(39, 'Kesehatan Mental', 2023, 6, '978-1234567893', 29, 20, 'R020', 9),
+(40, 'Dasar-dasar Manajemen', 2021, 13, '978-2345678904', 30, 11, 'R020', 37),
+(41, 'Panduan Bertani Organik', 2022, 9, '978-3456789015', 31, 12, 'R001', 39),
 (42, 'Buku Pintar Fotografi', 2020, 10, '978-4567890126', 32, 33, 'R002', 27),
-(43, 'Filsafat Hidup Modern', 2023, 8, '978-5678901237', 33, 34, 'R003', 25),
-(44, 'Budaya Bali: Tradisi dan Upacara', 2022, 7, '978-6789012348', 34, 35, 'R004', 26),
-(45, 'Panduan Desain Grafis', 2021, 14, '978-7890123459', 35, 36, 'R005', 46),
-(46, 'Jurnalistik Masa Kini', 2020, 9, '978-8901234572', 36, 37, 'R006', 42),
-(47, 'Musik dan Kreativitas', 2023, 5, '978-9012345683', 37, 38, 'R007', 28),
-(48, 'Geografi Indonesia', 2021, 8, '978-0123456794', 38, 39, 'R008', 20),
-(49, 'Panduan Arsitektur Modern', 2022, 10, '978-1234567894', 39, 40, 'R009', 31),
-(50, 'Pemrograman untuk Anak', 2020, 12, '978-2345678905', 40, 41, 'R010', 34),
-(51, 'Kisah Inspiratif Para Tokoh', 2023, 6, '978-3456789016', 41, 42, 'R011', 5),
-(52, 'Fotografi Alam Liar', 2021, 11, '978-4567890127', 42, 43, 'R012', 27),
-(53, 'Resep Masakan Internasional', 2020, 15, '978-5678901238', 43, 44, 'R013', 22),
-(54, 'Panduan Parenting Modern', 2022, 7, '978-6789012349', 44, 45, 'R014', 14),
-(55, 'Mengenal Mitologi Yunani', 2023, 9, '978-7890123460', 45, 46, 'R015', 43),
-(56, 'Pariwisata Indonesia', 2021, 8, '978-8901234573', 46, 47, 'R016', 23),
-(57, 'Lingkungan dan Kehidupan', 2020, 10, '978-9012345684', 47, 48, 'R017', 24),
-(58, 'Fashion Modern dan Klasik', 2022, 6, '978-0123456795', 48, 49, 'R018', 32);
+(43, 'Filsafat Hidup Modern', 2023, 8, '978-5678901237', 33, 4, 'R003', 25),
+(44, 'Budaya Bali: Tradisi dan Upacara', 2022, 7, '978-6789012348', 34, 15, 'R004', 26),
+(45, 'Panduan Desain Grafis', 2021, 14, '978-7890123459', 35, 16, 'R005', 46),
+(46, 'Jurnalistik Masa Kini', 2020, 9, '978-8901234572', 36, 17, 'R006', 42),
+(47, 'Musik dan Kreativitas', 2023, 5, '978-9012345683', 37, 28, 'R007', 28),
+(48, 'Geografi Indonesia', 2021, 8, '978-0123456794', 38, 19, 'R008', 20),
+(49, 'Panduan Arsitektur Modern', 2022, 10, '978-1234567894', 39, 20, 'R009', 31),
+(50, 'Pemrograman untuk Anak', 2020, 12, '978-2345678905', 40, 11, 'R010', 34),
+(51, 'Kisah Inspiratif Para Tokoh', 2023, 6, '978-3456789016', 11, 22, 'R011', 5),
+(52, 'Fotografi Alam Liar', 2021, 11, '978-4567890127', 12, 23, 'R012', 27),
+(53, 'Resep Masakan Internasional', 2020, 15, '978-5678901238', 33, 14, 'R013', 22),
+(54, 'Panduan Parenting Modern', 2022, 7, '978-6789012349', 14, 4, 'R014', 14),
+(55, 'Mengenal Mitologi Yunani', 2023, 9, '978-7890123460', 15, 6, 'R015', 43),
+(56, 'Pariwisata Indonesia', 2021, 8, '978-8901234573', 16, 4, 'R016', 23),
+(57, 'Lingkungan dan Kehidupan', 2020, 10, '978-9012345684', 17, 8, 'R017', 24),
+(58, 'Fashion Modern dan Klasik', 2022, 6, '978-0123456795', 18, 9, 'R018', 32);
 
 
 INSERT INTO peminjaman (id, tanggal_pinjam, tanggal_kembali, anggota_id, petugas_id) VALUES
@@ -469,9 +447,7 @@ INSERT INTO peminjaman_detail (peminjaman_id, buku_id) VALUES
 (53, 43),
 (54, 44),
 (55, 45),
-(56, 46),
-(57, 47),
-(58, 48);
+(56, 46);
 
 INSERT INTO pengembalian (id, tanggal_pengembalian, denda, peminjaman_id, anggota_id, petugas_id) VALUES
 (1, '2024-12-08', 5000, 1, 1, 2),
@@ -571,8 +547,4 @@ INSERT INTO pengembalian_detail (pengembalian_id, buku_id) VALUES
 (43, 22),
 (44, 34),
 (45, 10),
-(46, 12),
-(47, 53),
-(48, 31),
-(49, 48),
-(50, 54);
+(46, 12);

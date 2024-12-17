@@ -14,23 +14,34 @@ def create_connection(host, user, password, database):
 
 # 2. Fungsi untuk mengekstraksi data (Extract)
 def extract_data(conn):
-   query = "SELECT * FROM anggota" 
+   query = "SELECT * FROM petugas" 
    df = pd.read_sql(query, conn) 
    return df
 
 # 3. Fungsi untuk mentransformasikan data (Transform)
 def transform_data(df):
-   df['jenis_kelamin'] = df['jenis_kelamin'].replace(r'^\s*$', None, regex=True)
+   df['username'] = df['username'].replace(r'^\s*$', None, regex=True)
+   df['nama'] = df['nama'].replace(r'^\s*$', None, regex=True)
    
-   df.fillna({'nama': 'Tidak Ada Nama',
-            'jenis_kelamin': 'Tidak ingin menjawab',
+   df['username'] = df.apply(
+      lambda row: row['nama'] if pd.isna(row['username']) and not pd.isna(row['nama']) else row['username'], axis=1
+   )
+   df['nama'] = df.apply(
+      lambda row: row['username'] if pd.isna(row['nama']) and not pd.isna(row['username']) else row['nama'], axis=1
+   )
+   
+   df.fillna({
             'alamat': 'Tidak diketahui',
-            'telp': '-'},
+            'telp': '-',
+            'password': 'password'
+            },
             inplace=True)
    
    df['nama'] = df['nama'].str.upper()
+   df['username'] = df['username'].str.lower()
    df['alamat'] = df['alamat'].replace(r'^\s*$', 'Tidak Diketahui', regex=True)
-   df['jenis_kelamin'] = df['jenis_kelamin'].replace({'P': 'Perempuan', 'L': 'Laki-laki'})
+   df['telp'] = df['telp'].replace(r'^\s*$', '-', regex=True)
+   df['password'] = df['password'].replace(r'^\s*$', 'password', regex=True)
    
    return df
 
@@ -39,39 +50,40 @@ def load_data_to_staging(conn, df):
    cursor = conn.cursor()
 
    create_table_query = """
-   CREATE TABLE IF NOT EXISTS anggota_transformed (
-   id INT,
-   nama VARCHAR(255),
-   jenis_kelamin VARCHAR(50),
-   alamat TINYTEXT,
-   telp VARCHAR(12),
-   start_date DATETIME,
-   end_date DATETIME,
-   is_current BOOLEAN,
-   PRIMARY KEY (id, start_date)
-);
+   CREATE TABLE IF NOT EXISTS petugas_transformed (
+      id INT,
+      username VARCHAR(255),
+      nama VARCHAR(255),
+      telp VARCHAR(12),
+      alamat TINYTEXT,
+      password VARCHAR(45),
+      start_date DATETIME,
+      end_date DATETIME,
+      is_current BOOLEAN,
+      PRIMARY KEY (id, start_date)
+   )
    """
    cursor.execute(create_table_query)
    
-   # Memasukkan data dengan logika SCD Type 2
+   # Memasukkan data yang sudah ditransformasikan ke dalam tabel tujuan di staging area
    for _, row in df.iterrows():
       # Periksa apakah data sudah ada dan perlu diperbarui
       check_query = """
-      SELECT * FROM anggota_transformed 
+      SELECT * FROM petugas_transformed 
       WHERE id = %s AND is_current = 1
       """
       cursor.execute(check_query, (row['id'],))
       existing_data = cursor.fetchone()
-
+      
       # Jika data lama ada dan berbeda, nonaktifkan data lama dan tambahkan data baru
       if existing_data:
-         current_values = existing_data[1:5]
-         new_values = (row['nama'], row['jenis_kelamin'], row['alamat'], row['telp'])
+         current_values = existing_data[1:6]
+         new_values = (row['username'], row['nama'], row['telp'], row['alamat'], row['password'])
 
          if current_values != new_values:
                # Nonaktifkan data lama
                update_old_query = """
-               UPDATE anggota_transformed
+               UPDATE petugas_transformed
                SET end_date = %s, is_current = 0
                WHERE id = %s AND is_current = 1
                """
@@ -79,19 +91,19 @@ def load_data_to_staging(conn, df):
 
                # Tambahkan data baru
                insert_new_query = """
-               INSERT INTO anggota_transformed (id, nama, jenis_kelamin, alamat, telp, start_date, end_date, is_current)
-               VALUES (%s, %s, %s, %s, %s, %s, NULL, 1)
+               INSERT INTO petugas_transformed (id, username, nama, telp, alamat, password, start_date, end_date, is_current)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, NULL, 1)
                """
-               cursor.execute(insert_new_query, (row['id'], row['nama'], row['jenis_kelamin'],
-                                                row['alamat'], row['telp'], datetime.now()))
+               cursor.execute(insert_new_query, (row['id'], row['username'], row['nama'], row['telp'],
+                                                row['alamat'], row['password'], datetime.now()))
       else:
          # Jika data belum ada, tambahkan sebagai data baru
          insert_query = """
-         INSERT INTO anggota_transformed (id, nama, jenis_kelamin, alamat, telp, start_date, end_date, is_current)
-         VALUES (%s, %s, %s, %s, %s, %s, NULL, 1)
+         INSERT INTO petugas_transformed (id, username, nama, telp, alamat, password, start_date, end_date, is_current)
+         VALUES (%s, %s, %s, %s, %s, %s, %s, NULL, 1)
          """
-         cursor.execute(insert_query, (row['id'], row['nama'], row['jenis_kelamin'],
-                                       row['alamat'], row['telp'], datetime.now()))
+         cursor.execute(insert_query, (row['id'], row['username'], row['nama'], row['telp'],
+                                       row['alamat'], row['password'], datetime.now()))
 
    conn.commit()
    print("Data berhasil dimuat ke dalam database dengan SCD type 2.")
