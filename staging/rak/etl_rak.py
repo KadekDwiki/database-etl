@@ -38,7 +38,7 @@ def load_data_to_staging(conn, df):
    end_date DATETIME,
    is_current BOOLEAN,
    PRIMARY KEY (kode_rak, start_date)
-);
+   );
    """
    cursor.execute(create_table_query)
    
